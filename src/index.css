@@ -629,3 +629,13 @@ textarea {
     color: var(--primary);
     animation: fadeIn 0.3s ease-in-out;
 }
+/* Ultra-compact mobile overrides */
+@media (max-width: 600px) {
+    .content-area { padding: 0.4rem !important; }
+    .card { padding: 0.5rem !important; border-radius: 12px !important; }
+    .stats-grid, .charts-grid { gap: 0.4rem !important; margin-bottom: 0.8rem !important; }
+    .transaction-cards { gap: 2px !important; }
+    .transaction-card { padding: 0.25rem 0.5rem !important; border-radius: 6px !important; }
+    .main-header { height: 50px !important; padding: 0 0.5rem !important; }
+    .chart-card { height: 280px !important; }
+}
