@@ -23,12 +23,26 @@
     font-family: 'Outfit', sans-serif;
 }
 
+.show-mobile {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .hide-mobile {
+        display: none;
+    }
+
+    .show-mobile {
+        display: inline;
+    }
+}
+
 body {
     background-color: var(--bg-color);
     color: var(--text-main);
     min-height: 100vh;
     overflow-x: hidden;
-    background-image: 
+    background-image:
         radial-gradient(circle at 10% 20%, rgba(124, 77, 255, 0.05) 0%, transparent 40%),
         radial-gradient(circle at 90% 80%, rgba(0, 229, 255, 0.05) 0%, transparent 40%);
 }
@@ -64,6 +78,12 @@ body {
     font-weight: 800;
     letter-spacing: -1px;
     color: var(--text-main);
+}
+
+@media (max-width: 600px) {
+    .logo {
+        font-size: 1.2rem;
+    }
 }
 
 .sidebar-nav {
@@ -142,6 +162,13 @@ body {
     z-index: 90;
 }
 
+@media (max-width: 600px) {
+    .main-header {
+        padding: 0 0.75rem;
+        height: 55px;
+    }
+}
+
 .header-title {
     font-size: 1.25rem;
     font-weight: 700;
@@ -161,7 +188,8 @@ body {
     width: 100%;
 }
 
-.hamburger, .mobile-close {
+.hamburger,
+.mobile-close {
     display: none;
     background: transparent;
     border: none;
@@ -202,8 +230,11 @@ body {
     .sidebar-overlay {
         display: none;
         position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(0,0,0,0.3);
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
         backdrop-filter: blur(4px);
         z-index: 95;
     }
@@ -217,18 +248,48 @@ body {
     }
 
     .content-area {
-        padding: 1.5rem;
+        padding: 0.75rem;
+        /* Reduced from 1rem */
     }
 }
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Slightly smaller min-width for better fit */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 1.5rem;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 }
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
 @media (max-width: 600px) {
-    .stats-grid { grid-template-columns: 1fr; }
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .charts-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .stats-grid>*:first-child:nth-last-child(3),
+    .stats-grid>*:first-child:nth-last-child(3)~* {
+        /* If there are 3 items, make the first one full width for balance if desired, 
+           or just let them wrap. 2-1 layout: */
+    }
+
+    /* Make the first stat card (Balance) full width for prominence */
+    .stats-grid.top-stats>*:first-child {
+        grid-column: span 2;
+    }
 }
 
 .card {
@@ -240,9 +301,32 @@ body {
     transition: var(--transition);
 }
 
+@media (max-width: 600px) {
+    .card {
+        padding: 0.75rem;
+        /* Reduced from 1rem */
+        border-radius: 16px;
+        /* Reduced from 20px */
+    }
+}
+
 .card:hover {
     transform: translateY(-5px);
     border-color: var(--primary);
+}
+
+.chart-card {
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 600px) {
+    .chart-card {
+        height: 300px;
+        padding: 0.5rem 0.75rem !important;
+        /* Even less padding for charts */
+    }
 }
 
 .card-title {
@@ -259,21 +343,116 @@ body {
     font-weight: 700;
 }
 
-.card-value.income { color: var(--income); }
-.card-value.expense { color: var(--expense); }
+@media (max-width: 600px) {
+    .card-value {
+        font-size: 1.15rem;
+        /* Reduced from 1.25rem */
+    }
+
+    .card-title {
+        font-size: 0.75rem;
+        /* Reduced from 0.8rem */
+        gap: 0.3rem;
+        /* Reduced gap */
+    }
+}
+
+.card-value.income {
+    color: var(--income);
+}
+
+.card-value.expense {
+    color: var(--expense);
+}
 
 .table-container {
     background: var(--surface-color);
     border: 1px solid var(--surface-border);
     border-radius: 24px;
-    overflow-x: auto; /* Ensure tables scroll on mobile */
+    overflow-x: auto;
     backdrop-filter: var(--glass-blur);
+}
+
+@media (max-width: 600px) {
+    .table-container.mobile-hide {
+        display: none;
+    }
+}
+
+.transaction-cards {
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+    /* Maximum compactness */
+    margin-top: 0.4rem;
+}
+
+@media (max-width: 600px) {
+    .transaction-cards {
+        display: flex;
+    }
+}
+
+.transaction-card {
+    background: #ffffff;
+    border: 1px solid var(--surface-border);
+    border-radius: 8px;
+    /* Slightly smaller */
+    padding: 0.35rem 0.6rem;
+    /* Even more compact */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.summary-card {
+    background: linear-gradient(to right, #ffffff, rgba(99, 102, 241, 0.05));
+    border-left: 3px solid var(--primary);
+}
+
+.t-card-left,
+.t-card-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.t-card-date {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.t-card-category {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-main);
+}
+
+.t-card-amount {
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-align: right;
+}
+
+.t-card-mode {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    text-align: right;
+}
+
+.t-card-actions {
+    display: flex;
+    gap: 0.2rem;
+    margin-left: 0.5rem;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 600px; /* Minimum width to prevent squishing */
+    min-width: 600px;
+    /* Minimum width to prevent squishing */
 }
 
 th {
@@ -297,8 +476,15 @@ td {
     font-weight: 600;
 }
 
-.badge-income { background: rgba(0, 230, 118, 0.1); color: var(--income); }
-.badge-expense { background: rgba(255, 23, 68, 0.1); color: var(--expense); }
+.badge-income {
+    background: rgba(0, 230, 118, 0.1);
+    color: var(--income);
+}
+
+.badge-expense {
+    background: rgba(255, 23, 68, 0.1);
+    color: var(--expense);
+}
 
 .btn {
     padding: 0.7rem 1.4rem;
@@ -312,15 +498,46 @@ td {
     gap: 0.5rem;
 }
 
-.btn-primary { background: var(--primary); color: white; }
-.btn-primary:hover { box-shadow: 0 8px 20px rgba(124, 77, 255, 0.4); }
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
 
-.btn-outline { background: transparent; border: 1px solid var(--surface-border); color: var(--text-main); }
-.btn-outline:hover { background: var(--surface-color); }
+.btn-primary:hover {
+    box-shadow: 0 8px 20px rgba(124, 77, 255, 0.4);
+}
+
+@media (max-width: 600px) {
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--surface-border);
+    color: var(--text-main);
+}
+
+.btn-outline:hover {
+    background: var(--surface-color);
+}
 
 .modal-overlay {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(12px);
     display: flex;
@@ -342,13 +559,29 @@ td {
 }
 
 @media (max-width: 480px) {
-    .modal { padding: 1.5rem; }
-    .form-group { margin-bottom: 1rem; }
+    .modal {
+        padding: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
 }
 
-.form-group { margin-bottom: 1.2rem; }
-label { display: block; color: var(--text-dim); margin-bottom: 0.4rem; font-size: 0.9rem; }
-input, select, textarea {
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+label {
+    display: block;
+    color: var(--text-dim);
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+}
+
+input,
+select,
+textarea {
     width: 100%;
     background: rgba(0, 0, 0, 0.03);
     border: 1px solid var(--surface-border);
@@ -357,12 +590,34 @@ input, select, textarea {
     color: var(--text-main);
 }
 
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 .loading-overlay {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(4px);
     display: flex;
